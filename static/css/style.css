@@ -1,522 +1,542 @@
-﻿/* ==========================================================================
-   Chronic Kidney Disease (CKD) Predictor - Medical Dashboard Theme
+/* ==========================================================================
+   Chronic Kidney Disease (CKD) Predictor - Stylesheet (style.css)
+   Clean, modern, responsive medical aesthetic built for 2nd-year students.
    ========================================================================== */
 
 :root {
-    --primary:        #0284c7;
-    --primary-hover:  #0369a1;
-    --primary-subtle: #e0f2fe;
-    --success:        #10b981;
-    --success-bg:     #ecfdf5;
-    --warning:        #f59e0b;
-    --warning-bg:     #fffbeb;
-    --danger:         #ef4444;
-    --danger-bg:      #fef2f2;
-    --dark:           #0f172a;
-    --slate:          #475569;
-    --border:         #e2e8f0;
-    --bg-light:       #f8fafc;
-    --card-bg:        #ffffff;
-    --radius:         12px;
-    --shadow:         0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
-    --shadow-md:      0 10px 25px -5px rgba(0,0,0,0.1);
+    --primary: #0284c7;        /* Medical Sky Blue */
+    --primary-dark: #0369a1;
+    --primary-light: #e0f2fe;
+    --success: #10b981;        /* Low risk green */
+    --success-bg: #ecfdf5;
+    --warning: #f59e0b;        /* Moderate risk amber */
+    --warning-bg: #fffbeb;
+    --danger: #ef4444;         /* High risk red */
+    --danger-bg: #fef2f2;
+    --text-dark: #0f172a;
+    --text-muted: #64748b;
+    --bg-page: #f8fafc;
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+    --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+/* Reset and Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-light);
-    color: var(--dark);
+    background-color: var(--bg-page);
+    color: var(--text-dark);
     line-height: 1.6;
-    padding: 1.5rem;
+    padding: 2rem 1rem;
 }
 
-.container { max-width: 1100px; margin: 0 auto; }
+.container {
+    max-width: 1050px;
+    margin: 0 auto;
+}
 
-/* ==========================================================================
-   HEADER / HERO
-   ========================================================================== */
-.header-hero {
-    background: linear-gradient(135deg, #0284c7 0%, #075985 100%);
-    color: white;
-    border-radius: var(--radius);
+/* 1. Header / Hero */
+.hero-header {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff;
     padding: 2.2rem;
-    box-shadow: 0 10px 25px -5px rgba(2,132,199,0.35);
-    margin-bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 20px -5px rgba(2, 132, 199, 0.3);
+    margin-bottom: 1.5rem;
 }
-
-/* Compact result page header */
-.result-header-compact {
-    padding: 1.6rem 2rem;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.header-inner { display: flex; flex-direction: column; gap: 0.5rem; }
 
 .badge-tag {
     display: inline-block;
-    align-self: flex-start;
-    background: rgba(255,255,255,0.22);
-    padding: 0.3rem 0.8rem;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    padding: 0.25rem 0.75rem;
     border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
+    font-size: 0.8rem;
+    font-weight: 600;
     text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
 }
 
-.header-hero h1 { font-size: 2.2rem; font-weight: 800; line-height: 1.2; }
-.result-header-compact h1 { font-size: 1.7rem; }
-.header-hero p { font-size: 1.05rem; opacity: 0.92; max-width: 780px; }
-.result-header-compact p { font-size: 0.95rem; max-width: 700px; }
-
-/* Back button inside result header */
-.btn-back-header {
-    background: rgba(255,255,255,0.18);
-    color: white;
-    padding: 0.55rem 1.2rem;
-    border-radius: 8px;
-    text-decoration: none;
+.project-title {
+    font-size: 2rem;
     font-weight: 700;
-    font-size: 0.9rem;
-    white-space: nowrap;
-    border: 1.5px solid rgba(255,255,255,0.35);
-    transition: background 0.2s;
+    margin-bottom: 0.5rem;
 }
-.btn-back-header:hover { background: rgba(255,255,255,0.3); }
 
-/* ==========================================================================
-   PRESETS BAR (Index page)
-   ========================================================================== */
-.presets-bar {
+.project-description {
+    font-size: 1.05rem;
+    opacity: 0.92;
+    max-width: 800px;
+}
+
+/* Quick Demo Toolbar */
+.demo-toolbar {
     background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1rem 1.4rem;
-    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 1rem;
-    box-shadow: var(--shadow);
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-card);
 }
 
-.presets-label {
+.demo-title {
+    font-weight: 600;
+    color: var(--text-dark);
     font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--slate);
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
 }
 
-.preset-buttons { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.demo-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
 
-.btn-preset {
-    background: var(--bg-light);
-    border: 1px solid var(--border);
-    border-radius: 8px;
+.btn-demo {
     padding: 0.45rem 0.9rem;
     font-size: 0.85rem;
     font-weight: 600;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
     cursor: pointer;
+    background: #ffffff;
     transition: all 0.2s ease;
-    color: var(--dark);
-}
-.btn-preset:hover {
-    background: var(--primary-subtle);
-    border-color: var(--primary);
-    color: var(--primary);
 }
 
-/* ==========================================================================
-   FORM SECTIONS (shared by index & result)
-   ========================================================================== */
-.form-section {
+.btn-demo-healthy:hover { background: var(--success-bg); border-color: var(--success); color: var(--success); }
+.btn-demo-warning:hover { background: var(--warning-bg); border-color: var(--warning); color: var(--warning); }
+.btn-demo-severe:hover { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); }
+
+/* Card Panels & Form Grid */
+.card-panel {
     background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
     padding: 1.5rem;
     margin-bottom: 1.5rem;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-card);
 }
 
-.section-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--dark);
-    margin-bottom: 1.1rem;
-    padding-bottom: 0.6rem;
-    border-bottom: 2px solid var(--primary-subtle);
+.panel-heading {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+}
+
+.form-group {
     display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.unit {
+    color: var(--text-muted);
+    font-weight: normal;
+    font-size: 0.8rem;
+}
+
+.field-hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    background-color: #ffffff;
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+/* Action Container & Buttons */
+.action-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.btn-predict {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 600;
+    padding: 0.9rem 2.5rem;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    display: inline-flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-.section-subtext { color: var(--slate); font-size: 0.95rem; margin-bottom: 1rem; }
-
-/* Grids */
-.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
-.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; }
-
-.form-group { display: flex; flex-direction: column; gap: 0.35rem; }
-.form-group label { font-size: 0.88rem; font-weight: 600; color: var(--slate); }
-.form-group small  { font-size: 0.75rem; color: #94a3b8; }
-
-.form-control {
-    width: 100%;
-    padding: 0.6rem 0.85rem;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-size: 0.95rem;
-    color: var(--dark);
-    background: #fff;
-    transition: border-color 0.2s;
-}
-.form-control:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(2,132,199,0.15);
+.btn-predict:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.45);
 }
 
-/* Submit Button */
-.btn-submit {
-    display: block;
-    width: 100%;
-    background: var(--primary);
-    color: white;
-    padding: 1rem 1.5rem;
-    border: none;
-    border-radius: var(--radius);
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(2,132,199,0.3);
-    transition: background 0.2s, transform 0.1s;
-    margin-top: 1rem;
+.btn-predict:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
-.btn-submit:hover { background: var(--primary-hover); transform: translateY(-1px); }
-.btn-submit:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
 
-/* ==========================================================================
-   RESULT PAGE — MAIN BANNER
-   ========================================================================== */
-.result-banner {
-    border-radius: var(--radius);
-    padding: 2rem;
+/* Loading Box */
+.loading-box {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(2, 132, 199, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary);
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Error Box */
+.error-box {
+    background: var(--danger-bg);
+    border: 1px solid #fca5a5;
+    color: #991b1b;
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
     margin-bottom: 1.5rem;
-    box-shadow: var(--shadow-md);
-    border-left: 8px solid;
 }
-.result-banner.danger  { background: var(--danger-bg);  border-color: var(--danger);  color: #991b1b; }
-.result-banner.warning { background: var(--warning-bg); border-color: var(--warning); color: #92400e; }
-.result-banner.success { background: var(--success-bg); border-color: var(--success); color: #065f46; }
 
-.result-top-row {
+.error-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
+}
+
+.error-hint {
+    display: block;
+    margin-top: 0.5rem;
+    color: #7f1d1d;
+    font-size: 0.85rem;
+}
+
+/* Result Box */
+.result-box {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.75rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-hover);
+    transition: all 0.3s ease;
+}
+
+.result-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+    margin-bottom: 1.25rem;
     flex-wrap: wrap;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    gap: 0.75rem;
 }
 
-.result-verdict { flex: 1 1 60%; display: flex; flex-direction: column; gap: 0.7rem; }
+.result-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
 
-/* Risk tag pill */
-.result-risk-tag {
-    display: inline-block;
-    padding: 0.3rem 0.9rem;
+.result-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.badge-status {
+    padding: 0.4rem 1rem;
     border-radius: 9999px;
-    font-size: 0.8rem;
-    font-weight: 800;
-    letter-spacing: 0.06em;
+    font-weight: 700;
+    font-size: 0.9rem;
     text-transform: uppercase;
 }
-.risk-tag-danger  { background: #fee2e2; color: #b91c1c; }
-.risk-tag-warning { background: #fef3c7; color: #92400e; }
-.risk-tag-success { background: #d1fae5; color: #065f46; }
 
-.result-title { font-size: 1.8rem; font-weight: 800; line-height: 1.2; }
-.result-recommendation { font-size: 0.97rem; line-height: 1.6; }
+.badge-danger {
+    background-color: var(--danger-bg);
+    color: var(--danger);
+    border: 1px solid #fca5a5;
+}
 
-/* SVG Probability Ring */
-.prob-ring-wrapper {
-    position: relative;
-    width: 130px;
-    height: 130px;
-    flex-shrink: 0;
+.badge-success {
+    background-color: var(--success-bg);
+    color: var(--success);
+    border: 1px solid #86efac;
 }
-.prob-ring {
-    width: 130px;
-    height: 130px;
-    transform: rotate(-90deg);
-}
-.ring-bg {
-    fill: none;
-    stroke: rgba(0,0,0,0.1);
-    stroke-width: 12;
-}
-.ring-fill {
-    fill: none;
-    stroke-width: 12;
-    stroke-linecap: round;
-    transition: stroke-dashoffset 1s ease;
-}
-.ring-danger  { stroke: var(--danger); }
-.ring-warning { stroke: var(--warning); }
-.ring-success { stroke: var(--success); }
 
-.prob-center-text {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.1rem;
+.badge-warning {
+    background-color: var(--warning-bg);
+    color: var(--warning);
+    border: 1px solid #fde68a;
 }
-.prob-percent  { font-size: 1.45rem; font-weight: 900; line-height: 1; }
-.prob-sublabel { font-size: 0.7rem; font-weight: 600; opacity: 0.75; }
 
-/* Progress bar */
-.progress-bar-container {
-    background: rgba(0,0,0,0.1);
-    border-radius: 9999px;
-    height: 14px;
-    overflow: hidden;
-    margin-bottom: 0.4rem;
+/* Progress Track */
+.risk-section {
+    margin-bottom: 1.25rem;
 }
-.progress-bar-fill {
-    height: 100%;
-    border-radius: 9999px;
-    transition: width 0.9s ease-in-out;
-}
-.fill-danger  { background: var(--danger); }
-.fill-warning { background: var(--warning); }
-.fill-success { background: var(--success); }
 
-.progress-legend {
+.risk-meta {
     display: flex;
     justify-content: space-between;
-    font-size: 0.75rem;
-    opacity: 0.7;
-    padding: 0 2px;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
 }
 
-/* ==========================================================================
-   STATS STRIP
-   ========================================================================== */
-.stats-strip {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.stat-card {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.1rem 1.3rem;
-    box-shadow: var(--shadow);
-    border-top: 4px solid transparent;
-}
-.stat-blue   { border-top-color: var(--primary); }
-.stat-green  { border-top-color: var(--success); }
-.stat-red    { border-top-color: var(--danger); }
-.stat-orange { border-top-color: var(--warning); }
-
-.stat-icon { font-size: 1.6rem; flex-shrink: 0; }
-.stat-info { display: flex; flex-direction: column; gap: 0.15rem; }
-.stat-value { font-size: 1.5rem; font-weight: 800; color: var(--dark); line-height: 1.1; }
-.stat-value-sm { font-size: 1rem; }
-.stat-label { font-size: 0.78rem; color: var(--slate); font-weight: 600; }
-
-/* ==========================================================================
-   ANOMALY TABLE
-   ========================================================================== */
-.table-scroll-wrapper { overflow-x: auto; }
-
-.anomaly-table {
+.progress-track {
     width: 100%;
-    border-collapse: collapse;
-    font-size: 0.92rem;
-}
-.anomaly-table th, .anomaly-table td {
-    padding: 0.75rem 1rem;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-}
-.anomaly-table th {
-    background: var(--bg-light);
-    color: var(--slate);
-    font-weight: 700;
-    white-space: nowrap;
-}
-.anomaly-table tbody tr:hover { background: #f1f5f9; }
-
-.feat-code {
-    font-size: 0.75rem;
-    background: #f1f5f9;
-    padding: 0.1rem 0.35rem;
-    border-radius: 4px;
-    color: var(--primary);
-}
-.td-value  { font-weight: 700; color: var(--dark); }
-.td-unit   { font-size: 0.8rem; color: var(--slate); }
-.td-range  { color: var(--slate); font-size: 0.88rem; }
-.td-desc   { color: var(--slate); font-size: 0.88rem; }
-
-/* Status Badges */
-.status-badge {
-    display: inline-block;
-    padding: 0.25rem 0.6rem;
-    border-radius: 6px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    white-space: nowrap;
-}
-.badge-danger  { background: #fee2e2; color: #b91c1c; }
-.badge-warning { background: #fef3c7; color: #92400e; }
-
-/* All Normal Box */
-.all-normal-box {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.5rem;
-    background: var(--success-bg);
-    border-radius: 8px;
-    color: #065f46;
-}
-.all-normal-box strong { font-size: 1rem; display: block; margin-bottom: 0.2rem; }
-.all-normal-box p { font-size: 0.9rem; }
-
-/* ==========================================================================
-   PATIENT INPUT SUMMARY CHIPS
-   ========================================================================== */
-.summary-chip-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
-    margin-top: 0.5rem;
+    height: 14px;
+    background-color: #e2e8f0;
+    border-radius: 9999px;
+    overflow: hidden;
 }
 
-.summary-chip {
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-    padding: 0.5rem 0.85rem;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    min-width: 100px;
-}
-.chip-num { background: #f0f9ff; border-color: #bae6fd; }
-.chip-cat { background: #faf5ff; border-color: #e9d5ff; }
-
-.chip-label { font-size: 0.7rem; font-weight: 700; color: var(--slate); text-transform: uppercase; letter-spacing: 0.04em; }
-.chip-value { font-size: 0.92rem; font-weight: 700; color: var(--dark); }
-
-/* ==========================================================================
-   DISCLAIMER BOX
-   ========================================================================== */
-.disclaimer-box {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-    background: #fffbeb;
-    border: 1.5px solid #fcd34d;
-    border-radius: var(--radius);
-    padding: 1.2rem 1.5rem;
-    margin-bottom: 1.5rem;
-    font-size: 0.92rem;
-    color: #78350f;
-}
-.disc-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.1rem; }
-
-/* ==========================================================================
-   ACTION BUTTONS (Result page)
-   ========================================================================== */
-.action-row {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-}
-
-.btn-action-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+.progress-fill {
+    height: 100%;
+    width: 0%;
     background: var(--primary);
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--radius);
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.95rem;
-    box-shadow: 0 4px 10px rgba(2,132,199,0.25);
-    transition: background 0.2s, transform 0.1s;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.btn-action-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
 
-.btn-action-secondary {
+.explanation-box {
+    background: var(--bg-page);
+    border-left: 4px solid var(--primary);
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1rem;
+}
+
+.explanation-box strong {
+    color: var(--text-dark);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.explanation-box p {
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+/* Abnormal Biomarkers */
+.abnormal-container {
+    background: #fff7ed;
+    border: 1px solid #ffedd5;
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    margin-top: 1rem;
+}
+
+.abnormal-container h4 {
+    font-size: 0.95rem;
+    color: #c2410c;
+    margin-bottom: 0.5rem;
+}
+
+.abnormal-list {
+    list-style-type: square;
+    margin-left: 1.5rem;
+    color: #9a3412;
+    font-size: 0.9rem;
+}
+
+/* Footer / Academic Disclaimer */
+.footer-disclaimer {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+.disclaimer-text {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #475569;
+    margin-bottom: 0.5rem;
+}
+
+.footer-credit {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Utility Helpers */
+.hidden {
+    display: none !important;
+}
+
+/* Action Buttons Row */
+.action-buttons-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn-reset {
+    background: #ffffff;
+    color: #475569;
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding: 0.9rem 1.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: var(--dark);
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: var(--radius);
-    font-weight: 700;
+}
+
+.btn-reset:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+/* Print / PDF Clinical Report Button */
+.result-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-print {
+    background: #f0fdfa;
+    color: #0d9488;
+    border: 1px solid #99f6e4;
     font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.65rem 1.25rem;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: background 0.2s;
-}
-.btn-action-secondary:hover { background: #1e293b; }
-
-/* Legacy .btn-secondary kept for compatibility */
-.btn-secondary {
-    display: inline-block;
-    background: var(--dark);
-    color: white;
-    padding: 0.8rem 1.6rem;
-    border-radius: var(--radius);
-    text-decoration: none;
-    font-weight: 700;
-}
-.btn-secondary:hover { background: #1e293b; }
-
-/* ==========================================================================
-   FOOTER
-   ========================================================================== */
-footer {
-    text-align: center;
-    padding-top: 2rem;
-    padding-bottom: 1.5rem;
-    font-size: 0.85rem;
-    color: var(--slate);
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-/* ==========================================================================
-   PRINT STYLES
-   ========================================================================== */
+.btn-print:hover {
+    background: #ccfbf1;
+    color: #0f766e;
+    border-color: #5eead4;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .project-title { font-size: 1.5rem; }
+    .form-grid { grid-template-columns: 1fr; }
+    .result-header { flex-direction: column; align-items: flex-start; }
+    .action-buttons-row { width: 100%; flex-direction: column; }
+    .btn-predict, .btn-reset { width: 100%; justify-content: center; }
+    .result-actions { justify-content: center; width: 100%; }
+    .btn-print { width: 100%; justify-content: center; }
+}
+
+/* Print Formatting (Clean Clinical PDF Export) */
 @media print {
-    body { padding: 0; background: white; }
-    .presets-bar, .action-row, .btn-back-header { display: none; }
-    .form-section, .result-banner, .stats-strip { box-shadow: none; border: 1px solid #ccc; }
+    body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        color: #000000 !important;
+    }
+    .hero-header,
+    .demo-toolbar,
+    #prediction-form,
+    .error-box,
+    .result-actions,
+    .footer-credit {
+        display: none !important;
+    }
+    .container {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    .result-box {
+        border: 2px solid #000000 !important;
+        box-shadow: none !important;
+        padding: 1.5rem !important;
+        margin: 0 0 1rem 0 !important;
+        page-break-inside: avoid;
+    }
+    .progress-track {
+        border: 1px solid #000000 !important;
+    }
+    .footer-disclaimer {
+        border-top: 1px solid #000000 !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+        margin-top: 2rem !important;
+        padding: 1rem 0 !important;
+    }
 }
+

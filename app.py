@@ -1,4 +1,4 @@
-﻿"""
+"""
 app.py
 ======
 Flask Backend for the Chronic Kidney Disease (CKD) Predictor.
@@ -126,6 +126,22 @@ VALID_CATEGORIES = {
 }
 
 
+# Clinical physiological boundaries (for input validation and catching negative/absurd values)
+NUMERIC_BOUNDS = {
+    "age":  (1.0, 120.0, "years"),
+    "bp":   (20.0, 300.0, "mm/Hg"),
+    "bgr":  (20.0, 1000.0, "mg/dL"),
+    "bu":   (1.0, 500.0, "mg/dL"),
+    "sc":   (0.1, 30.0, "mg/dL"),
+    "sod":  (50.0, 200.0, "mEq/L"),
+    "pot":  (1.0, 15.0, "mEq/L"),
+    "hemo": (1.0, 25.0, "g/dL"),
+    "pcv":  (5.0, 75.0, "%"),
+    "wbcc": (500.0, 100000.0, "cells/µL"),
+    "rbcc": (0.5, 10.0, "M/µL")
+}
+
+
 # ============================================================
 # HELPER FUNCTION: BUILD PATIENT DATAFRAME
 # ============================================================
@@ -168,7 +184,15 @@ def build_patient_dataframe(raw_data):
         else:
             try:
                 # Convert to float (handles "1.2", 1, 1.2 etc.)
-                patient_row[feature] = float(value)
+                num_val = float(value)
+                # Check realistic clinical boundaries (prevent negative or absurd inputs)
+                if feature in NUMERIC_BOUNDS:
+                    min_b, max_b, unit = NUMERIC_BOUNDS[feature]
+                    if num_val < min_b or num_val > max_b:
+                        errors.append(
+                            f"Field '{feature}' must be between {min_b} and {max_b} {unit}. Got: {num_val}"
+                        )
+                patient_row[feature] = num_val
             except (ValueError, TypeError):
                 # User sent something like "abc" for a number field
                 errors.append(
@@ -323,6 +347,18 @@ def predict():
                 "age": 45, "bp": 80, "sc": 1.2,
                 "hemo": 14.0, "htn": "yes", "dm": "no"
             }
+        }), 400  # 400 = Bad Request
+
+    # Check that at least one patient biomarker or history field is actually provided
+    non_empty_features = [
+        k for k in ALL_FEATURES
+        if raw_data.get(k) is not None and str(raw_data.get(k)).strip() != ""
+    ]
+    if len(non_empty_features) == 0:
+        return jsonify({
+            "error": "Empty patient data.",
+            "message": "At least one patient biomarker or clinical parameter must be provided.",
+            "hint": "Use the sample profile presets at /sample/healthy to quickly populate the form."
         }), 400  # 400 = Bad Request
 
 

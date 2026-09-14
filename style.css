@@ -431,10 +431,112 @@ body {
     display: none !important;
 }
 
+/* Action Buttons Row */
+.action-buttons-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn-reset {
+    background: #ffffff;
+    color: #475569;
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding: 0.9rem 1.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-reset:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+/* Print / PDF Clinical Report Button */
+.result-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-print {
+    background: #f0fdfa;
+    color: #0d9488;
+    border: 1px solid #99f6e4;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.65rem 1.25rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-print:hover {
+    background: #ccfbf1;
+    color: #0f766e;
+    border-color: #5eead4;
+}
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
     .project-title { font-size: 1.5rem; }
     .form-grid { grid-template-columns: 1fr; }
     .result-header { flex-direction: column; align-items: flex-start; }
-    .btn-predict { width: 100%; justify-content: center; }
+    .action-buttons-row { width: 100%; flex-direction: column; }
+    .btn-predict, .btn-reset { width: 100%; justify-content: center; }
+    .result-actions { justify-content: center; width: 100%; }
+    .btn-print { width: 100%; justify-content: center; }
 }
+
+/* Print Formatting (Clean Clinical PDF Export) */
+@media print {
+    body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        color: #000000 !important;
+    }
+    .hero-header,
+    .demo-toolbar,
+    #prediction-form,
+    .error-box,
+    .result-actions,
+    .footer-credit {
+        display: none !important;
+    }
+    .container {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    .result-box {
+        border: 2px solid #000000 !important;
+        box-shadow: none !important;
+        padding: 1.5rem !important;
+        margin: 0 0 1rem 0 !important;
+        page-break-inside: avoid;
+    }
+    .progress-track {
+        border: 1px solid #000000 !important;
+    }
+    .footer-disclaimer {
+        border-top: 1px solid #000000 !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+        margin-top: 2rem !important;
+        padding: 1rem 0 !important;
+    }
+}
+

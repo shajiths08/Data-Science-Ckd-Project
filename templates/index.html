@@ -220,9 +220,14 @@
 
             <!-- Submit Button & Loading State -->
             <div class="action-container">
-                <button type="submit" id="predict-btn" class="btn-predict">
-                    <span class="btn-icon">🩺</span> Predict CKD
-                </button>
+                <div class="action-buttons-row">
+                    <button type="submit" id="predict-btn" class="btn-predict">
+                        <span class="btn-icon">🩺</span> Predict CKD
+                    </button>
+                    <button type="button" id="reset-btn" class="btn-reset" onclick="resetForm()">
+                        <span>🔄</span> Clear Form
+                    </button>
+                </div>
                 <div id="loading-indicator" class="loading-box hidden">
                     <div class="spinner"></div>
                     <span>Analyzing patient data with Machine Learning model... Please wait.</span>
@@ -271,6 +276,13 @@
             <div id="abnormal-section" class="abnormal-container hidden">
                 <h4>⚠️ Flagged Biomarkers Outside Medical Normal Ranges:</h4>
                 <ul id="abnormal-list" class="abnormal-list"></ul>
+            </div>
+
+            <!-- Print / Save Clinical Report Toolbar -->
+            <div class="result-actions">
+                <button type="button" class="btn-print" onclick="window.print()">
+                    🖨️ Print / Save Clinical Report (PDF)
+                </button>
             </div>
         </div>
 

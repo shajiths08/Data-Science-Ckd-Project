@@ -231,3 +231,15 @@ document.addEventListener("DOMContentLoaded", () => {
         errorCard.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 });
+
+// Reset / Clear Form Helper
+function resetForm() {
+    const form = document.getElementById("prediction-form");
+    if (form) form.reset();
+    const resultCard = document.getElementById("result-card");
+    if (resultCard) resultCard.classList.add("hidden");
+    const errorCard = document.getElementById("error-card");
+    if (errorCard) errorCard.classList.add("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
