@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: ckd-predictor
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 2 --threads 4 --timeout 120
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FLASK_DEBUG
+        value: "false"

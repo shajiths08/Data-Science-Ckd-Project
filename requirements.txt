@@ -52,3 +52,4 @@ watchdog==6.0.0
 websockets==16.1.1
 Werkzeug==3.1.8
 Flask-Cors==6.0.5
+gunicorn==23.0.0
