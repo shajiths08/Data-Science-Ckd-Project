@@ -1,0 +1,194 @@
+[
+  {
+    "feature": "hemo",
+    "importance": 0.1956
+  },
+  {
+    "feature": "pcv",
+    "importance": 0.1659
+  },
+  {
+    "feature": "rbcc",
+    "importance": 0.1145
+  },
+  {
+    "feature": "sc",
+    "importance": 0.0943
+  },
+  {
+    "feature": "al_0.0",
+    "importance": 0.0523
+  },
+  {
+    "feature": "htn_yes",
+    "importance": 0.0448
+  },
+  {
+    "feature": "sod",
+    "importance": 0.0415
+  },
+  {
+    "feature": "dm_no",
+    "importance": 0.041
+  },
+  {
+    "feature": "bgr",
+    "importance": 0.0309
+  },
+  {
+    "feature": "dm_yes",
+    "importance": 0.0244
+  },
+  {
+    "feature": "bu",
+    "importance": 0.0243
+  },
+  {
+    "feature": "htn_no",
+    "importance": 0.0216
+  },
+  {
+    "feature": "sg_1.015",
+    "importance": 0.0204
+  },
+  {
+    "feature": "sg_1.01",
+    "importance": 0.019
+  },
+  {
+    "feature": "sg_1.025",
+    "importance": 0.0118
+  },
+  {
+    "feature": "bp",
+    "importance": 0.0104
+  },
+  {
+    "feature": "pc_abnormal",
+    "importance": 0.0101
+  },
+  {
+    "feature": "pc_normal",
+    "importance": 0.0096
+  },
+  {
+    "feature": "wbcc",
+    "importance": 0.0083
+  },
+  {
+    "feature": "pot",
+    "importance": 0.0069
+  },
+  {
+    "feature": "appet_poor",
+    "importance": 0.0057
+  },
+  {
+    "feature": "al_3.0",
+    "importance": 0.005
+  },
+  {
+    "feature": "age",
+    "importance": 0.005
+  },
+  {
+    "feature": "al_1.0",
+    "importance": 0.0045
+  },
+  {
+    "feature": "sg_1.02",
+    "importance": 0.0041
+  },
+  {
+    "feature": "appet_good",
+    "importance": 0.0033
+  },
+  {
+    "feature": "rbc_normal",
+    "importance": 0.0032
+  },
+  {
+    "feature": "rbc_abnormal",
+    "importance": 0.0028
+  },
+  {
+    "feature": "pe_yes",
+    "importance": 0.0027
+  },
+  {
+    "feature": "ane_no",
+    "importance": 0.0027
+  },
+  {
+    "feature": "su_0.0",
+    "importance": 0.0025
+  },
+  {
+    "feature": "al_2.0",
+    "importance": 0.0025
+  },
+  {
+    "feature": "pe_no",
+    "importance": 0.002
+  },
+  {
+    "feature": "ane_yes",
+    "importance": 0.0013
+  },
+  {
+    "feature": "pcc_notpresent",
+    "importance": 0.0013
+  },
+  {
+    "feature": "ba_notpresent",
+    "importance": 0.001
+  },
+  {
+    "feature": "ba_present",
+    "importance": 0.0008
+  },
+  {
+    "feature": "su_3.0",
+    "importance": 0.0005
+  },
+  {
+    "feature": "su_4.0",
+    "importance": 0.0004
+  },
+  {
+    "feature": "su_1.0",
+    "importance": 0.0004
+  },
+  {
+    "feature": "cad_yes",
+    "importance": 0.0003
+  },
+  {
+    "feature": "su_2.0",
+    "importance": 0.0001
+  },
+  {
+    "feature": "pcc_present",
+    "importance": 0.0001
+  },
+  {
+    "feature": "cad_no",
+    "importance": 0.0001
+  },
+  {
+    "feature": "al_4.0",
+    "importance": 0.0
+  },
+  {
+    "feature": "sg_1.005",
+    "importance": 0.0
+  },
+  {
+    "feature": "al_5.0",
+    "importance": 0.0
+  },
+  {
+    "feature": "su_5.0",
+    "importance": 0.0
+  }
+]

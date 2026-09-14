@@ -1,0 +1,126 @@
+{
+  "champion_model": "Random Forest",
+  "dataset_summary": {
+    "total_samples": 400,
+    "ckd_cases": 250,
+    "notckd_cases": 150,
+    "train_samples": 320,
+    "test_samples": 80
+  },
+  "models": {
+    "Random Forest": {
+      "cv_accuracy_mean": 0.9844,
+      "cv_accuracy_std": 0.014,
+      "test_accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "roc_auc": 1.0,
+      "confusion_matrix": [
+        [
+          30,
+          0
+        ],
+        [
+          0,
+          50
+        ]
+      ]
+    },
+    "Gradient Boosting": {
+      "cv_accuracy_mean": 0.9906,
+      "cv_accuracy_std": 0.0077,
+      "test_accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "roc_auc": 1.0,
+      "confusion_matrix": [
+        [
+          30,
+          0
+        ],
+        [
+          0,
+          50
+        ]
+      ]
+    },
+    "Logistic Regression": {
+      "cv_accuracy_mean": 0.9906,
+      "cv_accuracy_std": 0.0077,
+      "test_accuracy": 0.9875,
+      "precision": 1.0,
+      "recall": 0.98,
+      "f1_score": 0.9899,
+      "roc_auc": 0.9987,
+      "confusion_matrix": [
+        [
+          30,
+          0
+        ],
+        [
+          1,
+          49
+        ]
+      ]
+    },
+    "Support Vector Machine": {
+      "cv_accuracy_mean": 1.0,
+      "cv_accuracy_std": 0.0,
+      "test_accuracy": 0.9875,
+      "precision": 1.0,
+      "recall": 0.98,
+      "f1_score": 0.9899,
+      "roc_auc": 0.9993,
+      "confusion_matrix": [
+        [
+          30,
+          0
+        ],
+        [
+          1,
+          49
+        ]
+      ]
+    },
+    "K-Nearest Neighbors": {
+      "cv_accuracy_mean": 0.95,
+      "cv_accuracy_std": 0.0182,
+      "test_accuracy": 0.925,
+      "precision": 1.0,
+      "recall": 0.88,
+      "f1_score": 0.9362,
+      "roc_auc": 0.97,
+      "confusion_matrix": [
+        [
+          30,
+          0
+        ],
+        [
+          6,
+          44
+        ]
+      ]
+    },
+    "Decision Tree": {
+      "cv_accuracy_mean": 0.9594,
+      "cv_accuracy_std": 0.0125,
+      "test_accuracy": 0.975,
+      "precision": 1.0,
+      "recall": 0.96,
+      "f1_score": 0.9796,
+      "roc_auc": 0.98,
+      "confusion_matrix": [
+        [
+          30,
+          0
+        ],
+        [
+          2,
+          48
+        ]
+      ]
+    }
+  }
+}
