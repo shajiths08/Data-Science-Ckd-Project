@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Portal Login | Chronic Kidney Disease Predictor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-body">
+    <div class="login-container">
+        <!-- Medical Brand Header -->
+        <div class="login-card">
+            <div class="login-header">
+                <div class="brand-badge">
+                    <span class="medical-cross">✚</span>
+                    <span>RenalCare Clinical AI</span>
+                </div>
+                <h1 class="login-title">Clinician Portal</h1>
+                <p class="login-subtitle">Authorized Medical Decision Support System for Chronic Kidney Disease Detection</p>
+            </div>
+
+            <!-- Login Form -->
+            <form action="index.html" method="GET" class="login-form">
+                <div class="form-group">
+                    <label for="email">Practitioner Email</label>
+                    <input type="email" id="email" name="email" value="doctor@hospital.org" placeholder="doctor@hospital.org" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" value="password123" placeholder="Enter password" required>
+                </div>
+
+                <button type="submit" class="btn-login">
+                    <span>🔐 Access Clinical Dashboard</span>
+                </button>
+            </form>
+
+            <!-- Quick Demo Login Toolbar for Viva Evaluators -->
+            <div class="demo-login-section">
+                <span class="demo-login-heading">⚡ Quick 1-Click Viva Demo Accounts:</span>
+                <div class="demo-login-buttons">
+                    <button type="button" class="btn-demo-user" onclick="fillAndSubmit('doctor@hospital.org', 'password123')">
+                        👨‍⚕️ <strong>Dr. Sarah Mitchell, MD</strong> (Senior Nephrologist)
+                    </button>
+                    <button type="button" class="btn-demo-user" onclick="fillAndSubmit('pathologist@hospital.org', 'password123')">
+                        🔬 <strong>Dr. Alex Reed, MD</strong> (Clinical Pathologist)
+                    </button>
+                </div>
+            </div>
+
+            <div class="login-footer">
+                <p>🎓 Academic Project Demo • Authorized Hospital Decision Support System</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function fillAndSubmit(email, password) {
+            document.getElementById("email").value = email;
+            document.getElementById("password").value = password;
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>

@@ -132,6 +132,31 @@ class TestCKDPredictorApp(unittest.TestCase):
         response = self.client.get("/health")
         self.assertIn("Access-Control-Allow-Origin", response.headers)
 
+    def test_11_login_page(self):
+        """Verify GET /login renders clinical login portal."""
+        response = self.client.get("/login")
+        self.assertEqual(response.status_code, 200)
+        html = response.get_data(as_text=True)
+        self.assertIn("Clinician Portal", html)
+        self.assertIn("doctor@hospital.org", html)
+
+    def test_12_login_authentication(self):
+        """Verify POST /login with demo credentials sets session."""
+        response = self.client.post("/login", json={
+            "email": "doctor@hospital.org",
+            "password": "password123"
+        })
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertEqual(data["status"], "success")
+        self.assertIn("redirect", data)
+
+    def test_13_logout(self):
+        """Verify GET /logout clears session and redirects to /login."""
+        response = self.client.get("/logout")
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("/login", response.headers["Location"])
+
 
 if __name__ == "__main__":
     print("=" * 70)
@@ -141,8 +166,9 @@ if __name__ == "__main__":
     runner = unittest.TextTestRunner(verbosity=2)
     result = runner.run(suite)
     if result.wasSuccessful():
-        print("\n[SUCCESS] ALL 10 TESTS PASSED WITH ZERO ERRORS!")
+        print(f"\n[SUCCESS] ALL {result.testsRun} TESTS PASSED WITH ZERO ERRORS!")
         sys.exit(0)
     else:
         print("\n[FAILURE] SOME TESTS FAILED.")
         sys.exit(1)
+

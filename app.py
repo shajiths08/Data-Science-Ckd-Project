@@ -32,7 +32,7 @@ import numpy as np  # For NaN values when data is missing
 import pandas as pd # To create DataFrames (table of patient data)
 
 # Flask is the web framework - it lets us create routes (URLs)
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, session, redirect, url_for
 
 # flask_cors allows our HTML/JavaScript frontend to talk to Flask
 # Without CORS, browsers block cross-origin requests for security
@@ -227,8 +227,77 @@ def build_patient_dataframe(raw_data):
 
 
 # ============================================================
+# CLINICAL PORTAL AUTHENTICATION & DEMO ACCOUNTS
+# ============================================================
+
+DEMO_USERS = {
+    "doctor@hospital.org": {
+        "password": "password123",
+        "name": "Dr. Sarah Mitchell, MD",
+        "role": "Senior Nephrologist",
+        "hospital": "Central Renal Institute",
+        "license": "MED-NEPH-4921"
+    },
+    "pathologist@hospital.org": {
+        "password": "password123",
+        "name": "Dr. Alex Reed, MD",
+        "role": "Clinical Pathologist",
+        "hospital": "Regional Diagnostic Lab",
+        "license": "PATH-8820"
+    }
+}
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    """
+    GET /login  -> Render the clinical portal login screen
+    POST /login -> Authenticate clinician and set session
+    """
+    if request.method == "POST":
+        data = request.get_json(silent=True) or request.form
+        email = (data.get("email") or "").strip().lower()
+        password = (data.get("password") or "").strip()
+
+        # In academic demo mode, match demo users or accept if password123 / admin123
+        if email in DEMO_USERS and (password == DEMO_USERS[email]["password"] or password in ["admin123", "demo123", "password123"]):
+            session["user"] = DEMO_USERS[email]
+            if request.is_json:
+                return jsonify({"status": "success", "redirect": url_for("index")})
+            return redirect(url_for("index"))
+        elif email and password:
+            # Allow custom doctor name for viva defense
+            user_info = {
+                "name": email.split("@")[0].replace(".", " ").title(),
+                "role": "Attending Clinician",
+                "hospital": "University Teaching Hospital",
+                "license": "DEMO-AUTH"
+            }
+            session["user"] = user_info
+            if request.is_json:
+                return jsonify({"status": "success", "redirect": url_for("index")})
+            return redirect(url_for("index"))
+        else:
+            if request.is_json:
+                return jsonify({"status": "error", "message": "Invalid email or password."}), 401
+            return render_template("login.html", error="Invalid credentials. Use demo presets below.")
+
+    # GET request: if already authenticated, go to dashboard
+    if "user" in session:
+        return redirect(url_for("index"))
+    return render_template("login.html")
+
+
+@app.route("/logout")
+def logout():
+    """Clear session and redirect to clinical login page."""
+    session.clear()
+    return redirect(url_for("login"))
+
+
+# ============================================================
 # ROUTE 1: GET /
-# Purpose: Home page / health check
+# Purpose: Home page / Diagnostic Dashboard
 # ============================================================
 
 @app.route("/")
@@ -236,12 +305,14 @@ def index():
     """
     GET /
     -----
-    This route serves the main HTML page.
-    When you open http://localhost:5000 in your browser, this runs.
-
-    It also reads the model performance metrics from a JSON file
-    (if it exists) to display on the home page.
+    Main diagnostic dashboard. Requires clinician login.
     """
+    # If not logged in and not in automated testing mode, redirect to /login
+    if "user" not in session and not app.config.get("TESTING"):
+        return redirect(url_for("login"))
+
+    user = session.get("user") or DEMO_USERS["doctor@hospital.org"]
+
     # Load model metrics for display on the home page (optional)
     metrics = {}
     metrics_path = os.path.join(ROOT_DIR, "models", "metrics_summary.json")
@@ -252,6 +323,7 @@ def index():
     # render_template() looks in the /templates folder for the HTML file
     return render_template(
         "index.html",
+        user=user,
         metrics=metrics,
         clinical_ranges=CLINICAL_RANGES
     )

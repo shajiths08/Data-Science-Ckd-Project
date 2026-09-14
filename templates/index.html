@@ -5,8 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chronic Kidney Disease Predictor</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
 <body>
+    <!-- Clinical Navigation Bar -->
+    <nav class="clinical-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-logo">✚</span>
+                <div>
+                    <strong class="nav-hospital">RenalCare AI</strong>
+                    <span class="nav-system">Clinical Decision Support Portal</span>
+                </div>
+            </div>
+            <div class="nav-user-menu">
+                <div class="nav-avatar">👨‍⚕️</div>
+                <div class="nav-user-info">
+                    <span class="nav-user-name">{{ user.name if user else 'Dr. Sarah Mitchell, MD' }}</span>
+                    <span class="nav-user-role">{{ user.role if user else 'Senior Nephrologist' }} • {{ user.hospital if user else 'Central Renal Institute' }}</span>
+                </div>
+                <a href="{{ url_for('logout') }}" class="btn-logout" title="Sign out of clinical session">🚪 Sign Out</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <!-- 1. Header Section -->
         <header class="hero-header">
