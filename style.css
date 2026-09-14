@@ -1,0 +1,440 @@
+/* ==========================================================================
+   Chronic Kidney Disease (CKD) Predictor - Stylesheet (style.css)
+   Clean, modern, responsive medical aesthetic built for 2nd-year students.
+   ========================================================================== */
+
+:root {
+    --primary: #0284c7;        /* Medical Sky Blue */
+    --primary-dark: #0369a1;
+    --primary-light: #e0f2fe;
+    --success: #10b981;        /* Low risk green */
+    --success-bg: #ecfdf5;
+    --warning: #f59e0b;        /* Moderate risk amber */
+    --warning-bg: #fffbeb;
+    --danger: #ef4444;         /* High risk red */
+    --danger-bg: #fef2f2;
+    --text-dark: #0f172a;
+    --text-muted: #64748b;
+    --bg-page: #f8fafc;
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+    --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
+}
+
+/* Reset and Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-dark);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+}
+
+.container {
+    max-width: 1050px;
+    margin: 0 auto;
+}
+
+/* 1. Header / Hero */
+.hero-header {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff;
+    padding: 2.2rem;
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 20px -5px rgba(2, 132, 199, 0.3);
+    margin-bottom: 1.5rem;
+}
+
+.badge-tag {
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+}
+
+.project-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.project-description {
+    font-size: 1.05rem;
+    opacity: 0.92;
+    max-width: 800px;
+}
+
+/* Quick Demo Toolbar */
+.demo-toolbar {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-card);
+}
+
+.demo-title {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+.demo-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.btn-demo {
+    padding: 0.45rem 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    background: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.btn-demo-healthy:hover { background: var(--success-bg); border-color: var(--success); color: var(--success); }
+.btn-demo-warning:hover { background: var(--warning-bg); border-color: var(--warning); color: var(--warning); }
+.btn-demo-severe:hover { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); }
+
+/* Card Panels & Form Grid */
+.card-panel {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-card);
+}
+
+.panel-heading {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.unit {
+    color: var(--text-muted);
+    font-weight: normal;
+    font-size: 0.8rem;
+}
+
+.field-hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    background-color: #ffffff;
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+/* Action Container & Buttons */
+.action-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.btn-predict {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 600;
+    padding: 0.9rem 2.5rem;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-predict:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.45);
+}
+
+.btn-predict:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Loading Box */
+.loading-box {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(2, 132, 199, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary);
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Error Box */
+.error-box {
+    background: var(--danger-bg);
+    border: 1px solid #fca5a5;
+    color: #991b1b;
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+}
+
+.error-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
+}
+
+.error-hint {
+    display: block;
+    margin-top: 0.5rem;
+    color: #7f1d1d;
+    font-size: 0.85rem;
+}
+
+/* Result Box */
+.result-box {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.75rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-hover);
+    transition: all 0.3s ease;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.result-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.result-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.badge-status {
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.badge-danger {
+    background-color: var(--danger-bg);
+    color: var(--danger);
+    border: 1px solid #fca5a5;
+}
+
+.badge-success {
+    background-color: var(--success-bg);
+    color: var(--success);
+    border: 1px solid #86efac;
+}
+
+.badge-warning {
+    background-color: var(--warning-bg);
+    color: var(--warning);
+    border: 1px solid #fde68a;
+}
+
+/* Progress Track */
+.risk-section {
+    margin-bottom: 1.25rem;
+}
+
+.risk-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+}
+
+.progress-track {
+    width: 100%;
+    height: 14px;
+    background-color: #e2e8f0;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--primary);
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.explanation-box {
+    background: var(--bg-page);
+    border-left: 4px solid var(--primary);
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1rem;
+}
+
+.explanation-box strong {
+    color: var(--text-dark);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.explanation-box p {
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+/* Abnormal Biomarkers */
+.abnormal-container {
+    background: #fff7ed;
+    border: 1px solid #ffedd5;
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    margin-top: 1rem;
+}
+
+.abnormal-container h4 {
+    font-size: 0.95rem;
+    color: #c2410c;
+    margin-bottom: 0.5rem;
+}
+
+.abnormal-list {
+    list-style-type: square;
+    margin-left: 1.5rem;
+    color: #9a3412;
+    font-size: 0.9rem;
+}
+
+/* Footer / Academic Disclaimer */
+.footer-disclaimer {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+.disclaimer-text {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #475569;
+    margin-bottom: 0.5rem;
+}
+
+.footer-credit {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Utility Helpers */
+.hidden {
+    display: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .project-title { font-size: 1.5rem; }
+    .form-grid { grid-template-columns: 1fr; }
+    .result-header { flex-direction: column; align-items: flex-start; }
+    .btn-predict { width: 100%; justify-content: center; }
+}
