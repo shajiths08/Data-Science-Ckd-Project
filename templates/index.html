@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronic Kidney Disease (CKD) Predictor | Clinical AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Header -->
+        <header class="header-hero">
+            <span class="badge-tag">Clinical Decision Support AI</span>
+            <h1>🩺 Chronic Kidney Disease (CKD) Predictor</h1>
+            <p>
+                An intelligent diagnostic web platform powered by Machine Learning to assist in early detection 
+                of renal impairment, risk stratification, and patient biomarker analysis.
+            </p>
+        </header>
+
+        <!-- Presets Bar for Viva Demonstrations -->
+        <div class="presets-bar">
+            <div class="presets-label">
+                <span>⚡ Quick-Fill Demo Profiles:</span>
+                <span id="active-preset-label" style="font-weight: normal; margin-left: 0.5rem;">Select a profile to autofill the form</span>
+            </div>
+            <div class="preset-buttons">
+                <button type="button" class="btn-preset" onclick="loadPreset('healthy')">🟢 Healthy Adult</button>
+                <button type="button" class="btn-preset" onclick="loadPreset('borderline')">🟡 Early Warning Risk</button>
+                <button type="button" class="btn-preset" onclick="loadPreset('severe')">🔴 High-Risk CKD</button>
+            </div>
+        </div>
+
+        <!-- Main Diagnostic Input Form -->
+        <form id="ckd-form" action="{{ url_for('predict') }}" method="POST">
+
+            <!-- Panel 1: Renal Function & Urinalysis Chemistry -->
+            <div class="form-section">
+                <h2 class="section-title">🧪 1. Renal Function & Urinalysis Chemistry</h2>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label for="sc">Serum Creatinine (sc) [mg/dL]</label>
+                        <input type="number" step="0.1" min="0.1" max="25" class="form-control" id="sc" name="sc" value="1.0" required>
+                        <small>Normal range: 0.6 - 1.2 mg/dL (Key filtration waste)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="bu">Blood Urea (bu) [mg/dL]</label>
+                        <input type="number" step="1" min="1" max="400" class="form-control" id="bu" name="bu" value="30" required>
+                        <small>Normal range: 10 - 50 mg/dL (Protein waste)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="sg">Specific Gravity (sg)</label>
+                        <select class="form-control" id="sg" name="sg" required>
+                            <option value="1.005">1.005</option>
+                            <option value="1.010">1.010</option>
+                            <option value="1.015">1.015</option>
+                            <option value="1.020" selected>1.020</option>
+                            <option value="1.025">1.025</option>
+                        </select>
+                        <small>Normal range: 1.015 - 1.025 (Urine concentration)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="al">Albumin in Urine (al)</label>
+                        <select class="form-control" id="al" name="al" required>
+                            <option value="0" selected>0 (None / Normal)</option>
+                            <option value="1">1 (Trace)</option>
+                            <option value="2">2 (Mild)</option>
+                            <option value="3">3 (Moderate)</option>
+                            <option value="4">4 (Heavy)</option>
+                            <option value="5">5 (Severe)</option>
+                        </select>
+                        <small>Normal: 0 (Higher indicates filter leakage)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="su">Sugar in Urine (su)</label>
+                        <select class="form-control" id="su" name="su" required>
+                            <option value="0" selected>0 (None / Normal)</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <small>Normal: 0</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="bgr">Random Blood Glucose (bgr) [mg/dL]</label>
+                        <input type="number" step="1" min="40" max="500" class="form-control" id="bgr" name="bgr" value="110" required>
+                        <small>Normal range: 70 - 140 mg/dL</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 2: Blood Panel & Electrolytes -->
+            <div class="form-section">
+                <h2 class="section-title">🩸 2. Complete Blood Count & Electrolytes</h2>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label for="hemo">Hemoglobin (hemo) [g/dL]</label>
+                        <input type="number" step="0.1" min="3" max="22" class="form-control" id="hemo" name="hemo" value="14.0" required>
+                        <small>Normal: 12.0 - 17.5 g/dL (Low in CKD anemia)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="pcv">Packed Cell Volume (pcv) [%]</label>
+                        <input type="number" step="1" min="10" max="60" class="form-control" id="pcv" name="pcv" value="42" required>
+                        <small>Normal: 36 - 50%</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="rbcc">Red Blood Cell Count (rbcc) [M/µL]</label>
+                        <input type="number" step="0.1" min="1.5" max="8.0" class="form-control" id="rbcc" name="rbcc" value="4.8" required>
+                        <small>Normal: 4.2 - 5.9 M/µL</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="wbcc">White Blood Cell Count (wbcc) [cells/µL]</label>
+                        <input type="number" step="100" min="1500" max="35000" class="form-control" id="wbcc" name="wbcc" value="7500" required>
+                        <small>Normal: 4,000 - 11,000 cells/µL</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="sod">Blood Sodium (sod) [mEq/L]</label>
+                        <input type="number" step="1" min="90" max="180" class="form-control" id="sod" name="sod" value="140" required>
+                        <small>Normal: 135 - 145 mEq/L</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="pot">Blood Potassium (pot) [mEq/L]</label>
+                        <input type="number" step="0.1" min="1.5" max="10.0" class="form-control" id="pot" name="pot" value="4.4" required>
+                        <small>Normal: 3.5 - 5.0 mEq/L</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 3: Urine Microscopic & Physical Signs -->
+            <div class="form-section">
+                <h2 class="section-title">🔬 3. Urine Microscopic & Physical Signs</h2>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label for="rbc">Red Blood Cells in Urine (rbc)</label>
+                        <select class="form-control" id="rbc" name="rbc" required>
+                            <option value="normal" selected>Normal</option>
+                            <option value="abnormal">Abnormal (Hematuria)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pc">Pus Cells in Urine (pc)</label>
+                        <select class="form-control" id="pc" name="pc" required>
+                            <option value="normal" selected>Normal</option>
+                            <option value="abnormal">Abnormal (Pyuria)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pcc">Pus Cell Clumps (pcc)</label>
+                        <select class="form-control" id="pcc" name="pcc" required>
+                            <option value="notpresent" selected>Not Present</option>
+                            <option value="present">Present</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ba">Bacteria (ba)</label>
+                        <select class="form-control" id="ba" name="ba" required>
+                            <option value="notpresent" selected>Not Present</option>
+                            <option value="present">Present</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pe">Pedal Edema (pe) [Swelling in feet/ankles]</label>
+                        <select class="form-control" id="pe" name="pe" required>
+                            <option value="no" selected>No</option>
+                            <option value="yes">Yes (Fluid retention)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 4: Patient Vitals & Medical History -->
+            <div class="form-section">
+                <h2 class="section-title">📋 4. Demographics, Vitals & Medical History</h2>
+                <div class="grid-4">
+                    <div class="form-group">
+                        <label for="age">Patient Age (Years)</label>
+                        <input type="number" min="1" max="115" class="form-control" id="age" name="age" value="45" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bp">Blood Pressure (bp) [mm/Hg]</label>
+                        <input type="number" step="5" min="40" max="220" class="form-control" id="bp" name="bp" value="80" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="htn">Hypertension (htn)</label>
+                        <select class="form-control" id="htn" name="htn" required>
+                            <option value="no" selected>No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dm">Diabetes Mellitus (dm)</label>
+                        <select class="form-control" id="dm" name="dm" required>
+                            <option value="no" selected>No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cad">Coronary Artery Disease (cad)</label>
+                        <select class="form-control" id="cad" name="cad" required>
+                            <option value="no" selected>No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="appet">Appetite (appet)</label>
+                        <select class="form-control" id="appet" name="appet" required>
+                            <option value="good" selected>Good</option>
+                            <option value="poor">Poor (Uremic toxicity)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ane">Anemia (ane)</label>
+                        <select class="form-control" id="ane" name="ane" required>
+                            <option value="no" selected>No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" id="submit-btn" class="btn-submit">🔍 Analyze Patient & Predict CKD Risk</button>
+        </form>
+
+        <footer>
+            <p>🎓 Academic Project: Chronic Kidney Disease Predictor • Built with Python, Scikit-Learn, Flask & Vanilla JS</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

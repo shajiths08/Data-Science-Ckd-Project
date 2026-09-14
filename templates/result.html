@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostic Report | CKD Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header-hero" style="padding: 1.5rem 2rem;">
+            <span class="badge-tag">Clinical Diagnostic Report</span>
+            <h1 style="font-size: 1.8rem;">Patient Assessment Results</h1>
+        </header>
+
+        <!-- Prediction Alert Banner -->
+        {% set alert_class = result.alert_level %}
+        <div class="result-banner {{ alert_class }}">
+            <div class="result-header">
+                <div>
+                    <span class="status-badge" style="background: rgba(0,0,0,0.08); font-size: 0.85rem; margin-bottom: 0.5rem;">
+                        {{ result.risk_level }}
+                    </span>
+                    <h2 class="result-title">
+                        {% if result.prediction_code == 1 %}
+                            🚨 {{ result.prediction_label }}
+                        {% else %}
+                            ✅ {{ result.prediction_label }}
+                        {% endif %}
+                    </h2>
+                </div>
+                <div style="text-align: right;">
+                    <div class="result-prob">{{ result.ckd_probability_percent }}%</div>
+                    <small>Estimated Disease Probability</small>
+                </div>
+            </div>
+
+            <!-- Risk Meter Progress Bar -->
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill fill-{{ alert_class }}" style="width: {{ result.ckd_probability_percent }}%;"></div>
+            </div>
+
+            <p style="margin-top: 1rem; font-size: 1.05rem;">
+                <strong>Clinical Recommendation:</strong> {{ result.recommendation }}
+            </p>
+        </div>
+
+        <!-- Biomarker Anomaly Inspector -->
+        <div class="form-section">
+            <h2 class="section-title">🔬 Clinical Biomarker Anomaly Analysis</h2>
+            {% if result.abnormal_biomarkers and result.abnormal_biomarkers|length > 0 %}
+                <p style="margin-bottom: 1rem; color: var(--slate);">
+                    The model flagged <strong>{{ result.abnormal_biomarkers|length }}</strong> parameter(s) lying outside standard physiological intervals:
+                </p>
+                <table class="anomaly-table">
+                    <thead>
+                        <tr>
+                            <th>Biomarker</th>
+                            <th>Observed Value</th>
+                            <th>Standard Reference</th>
+                            <th>Status</th>
+                            <th>Physiological Implication</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in result.abnormal_biomarkers %}
+                        <tr>
+                            <td><strong>{{ item.name }}</strong> (<code>{{ item.feature }}</code>)</td>
+                            <td>{{ item.value }} {{ item.unit }}</td>
+                            <td>{{ item.normal_range }}</td>
+                            <td>
+                                <span class="status-badge {% if 'High' in item.status or 'Present' in item.status or 'Abnormal' in item.status %}high{% else %}low{% endif %}">
+                                    {{ item.status }}
+                                </span>
+                            </td>
+                            <td>{{ item.description }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div style="padding: 1.5rem; text-align: center; color: var(--success); font-weight: 600;">
+                    ✅ All evaluated laboratory parameters are within normal physiological bounds.
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+            <a href="{{ url_for('index') }}" class="btn-secondary">⬅️ Assess Another Patient</a>
+        </div>
+
+        <footer>
+            <p>🎓 Academic Project: Chronic Kidney Disease Predictor • Built with Python, Scikit-Learn, Flask & Vanilla JS</p>
+        </footer>
+    </div>
+</body>
+</html>

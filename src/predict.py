@@ -17,11 +17,15 @@ from src.data_preprocessing import (
     CLINICAL_RANGES, clean_raw_dataframe
 )
 
-DEFAULT_MODEL_PATH = os.path.join(os.path.dirname(__file__), "..", "models", "ckd_pipeline.joblib")
+MODEL_PKL_PATH = os.path.join(os.path.dirname(__file__), "..", "models", "ckd_best_model.pkl")
+MODEL_JOBLIB_PATH = os.path.join(os.path.dirname(__file__), "..", "models", "ckd_pipeline.joblib")
+DEFAULT_MODEL_PATH = MODEL_PKL_PATH if os.path.exists(MODEL_PKL_PATH) else MODEL_JOBLIB_PATH
 
 
-def load_pipeline(model_path: str = DEFAULT_MODEL_PATH):
+def load_pipeline(model_path: str = None):
     """Loads the serialized scikit-learn champion pipeline."""
+    if model_path is None:
+        model_path = MODEL_PKL_PATH if os.path.exists(MODEL_PKL_PATH) else MODEL_JOBLIB_PATH
     if not os.path.exists(model_path):
         raise FileNotFoundError(
             f"Trained model not found at {model_path}. Please execute 'python src/train.py' first."
