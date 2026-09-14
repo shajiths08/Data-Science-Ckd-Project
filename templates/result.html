@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,91 +8,218 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <header class="header-hero" style="padding: 1.5rem 2rem;">
-            <span class="badge-tag">Clinical Diagnostic Report</span>
-            <h1 style="font-size: 1.8rem;">Patient Assessment Results</h1>
+
+        <!-- ====== HEADER ====== -->
+        <header class="header-hero result-header-compact">
+            <div class="header-inner">
+                <span class="badge-tag">Clinical Diagnostic Report</span>
+                <h1>Patient CKD Risk Assessment</h1>
+                <p>AI-generated risk report based on 24 clinical and laboratory parameters.
+                   This is an <strong>academic system</strong> &mdash; not a substitute for professional medical diagnosis.</p>
+            </div>
+            <a href="{{ url_for('index') }}" class="btn-back-header">&#8592; New Assessment</a>
         </header>
 
-        <!-- Prediction Alert Banner -->
+        <!-- ====== MAIN RESULT BANNER ====== -->
         {% set alert_class = result.alert_level %}
         <div class="result-banner {{ alert_class }}">
-            <div class="result-header">
-                <div>
-                    <span class="status-badge" style="background: rgba(0,0,0,0.08); font-size: 0.85rem; margin-bottom: 0.5rem;">
-                        {{ result.risk_level }}
+            <div class="result-top-row">
+
+                <!-- Left side: verdict text -->
+                <div class="result-verdict">
+                    <span class="result-risk-tag risk-tag-{{ alert_class }}">
+                        {% if alert_class == 'danger' %}&#x26A0; HIGH RISK
+                        {% elif alert_class == 'warning' %}&#x26A0; MODERATE RISK
+                        {% else %}&#x2714; LOW RISK{% endif %}
                     </span>
                     <h2 class="result-title">
                         {% if result.prediction_code == 1 %}
-                            🚨 {{ result.prediction_label }}
+                            &#x1F6A8; {{ result.prediction_label }}
                         {% else %}
-                            ✅ {{ result.prediction_label }}
+                            &#x2705; {{ result.prediction_label }}
                         {% endif %}
                     </h2>
+                    <p class="result-recommendation">
+                        <strong>Clinical Recommendation:</strong> {{ result.recommendation }}
+                    </p>
                 </div>
-                <div style="text-align: right;">
-                    <div class="result-prob">{{ result.ckd_probability_percent }}%</div>
-                    <small>Estimated Disease Probability</small>
+
+                <!-- Right side: SVG probability ring -->
+                <div class="prob-ring-wrapper">
+                    <svg class="prob-ring" viewBox="0 0 120 120">
+                        <!-- Background circle -->
+                        <circle class="ring-bg" cx="60" cy="60" r="50"/>
+                        <!-- Filled arc (stroke-dashoffset controls fill amount) -->
+                        <circle class="ring-fill ring-{{ alert_class }}"
+                                cx="60" cy="60" r="50"
+                                stroke-dasharray="314"
+                                stroke-dashoffset="{{ (314 - (result.ckd_probability_percent / 100.0 * 314)) | round(2) }}"/>
+                    </svg>
+                    <div class="prob-center-text">
+                        <span class="prob-percent">{{ result.ckd_probability_percent }}%</span>
+                        <span class="prob-sublabel">CKD Risk</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Risk Meter Progress Bar -->
+            <!-- Progress bar -->
             <div class="progress-bar-container">
-                <div class="progress-bar-fill fill-{{ alert_class }}" style="width: {{ result.ckd_probability_percent }}%;"></div>
+                <div class="progress-bar-fill fill-{{ alert_class }}"
+                     style="width: {{ result.ckd_probability_percent }}%;"></div>
             </div>
-
-            <p style="margin-top: 1rem; font-size: 1.05rem;">
-                <strong>Clinical Recommendation:</strong> {{ result.recommendation }}
-            </p>
+            <div class="progress-legend">
+                <span>0%</span>
+                <span>35% Moderate</span>
+                <span>70% High</span>
+                <span>100%</span>
+            </div>
         </div>
 
-        <!-- Biomarker Anomaly Inspector -->
+        <!-- ====== STATS STRIP ====== -->
+        <div class="stats-strip">
+            <div class="stat-card stat-blue">
+                <div class="stat-icon">&#x1F4CA;</div>
+                <div class="stat-info">
+                    <div class="stat-value">{{ result.ckd_probability_percent }}%</div>
+                    <div class="stat-label">Disease Probability</div>
+                </div>
+            </div>
+            <div class="stat-card {% if result.prediction_code == 1 %}stat-red{% else %}stat-green{% endif %}">
+                <div class="stat-icon">{% if result.prediction_code == 1 %}&#x26A0;{% else %}&#x2714;{% endif %}</div>
+                <div class="stat-info">
+                    <div class="stat-value stat-value-sm">{{ result.risk_level }}</div>
+                    <div class="stat-label">Risk Category</div>
+                </div>
+            </div>
+            <div class="stat-card stat-orange">
+                <div class="stat-icon">&#x1F9EA;</div>
+                <div class="stat-info">
+                    <div class="stat-value">{{ result.abnormal_biomarkers | length }}</div>
+                    <div class="stat-label">Abnormal Parameters</div>
+                </div>
+            </div>
+            <div class="stat-card stat-blue">
+                <div class="stat-icon">&#x1F916;</div>
+                <div class="stat-info">
+                    <div class="stat-value stat-value-sm">Random Forest</div>
+                    <div class="stat-label">AI Model (F1: 1.00)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== BIOMARKER ANOMALY TABLE ====== -->
         <div class="form-section">
-            <h2 class="section-title">🔬 Clinical Biomarker Anomaly Analysis</h2>
-            {% if result.abnormal_biomarkers and result.abnormal_biomarkers|length > 0 %}
-                <p style="margin-bottom: 1rem; color: var(--slate);">
-                    The model flagged <strong>{{ result.abnormal_biomarkers|length }}</strong> parameter(s) lying outside standard physiological intervals:
+            <h2 class="section-title">&#x1F52C; Clinical Biomarker Anomaly Analysis</h2>
+            {% if result.abnormal_biomarkers and result.abnormal_biomarkers | length > 0 %}
+                <p class="section-subtext">
+                    The model flagged <strong>{{ result.abnormal_biomarkers | length }}</strong> clinical
+                    parameter(s) lying outside standard physiological reference intervals:
                 </p>
-                <table class="anomaly-table">
-                    <thead>
-                        <tr>
-                            <th>Biomarker</th>
-                            <th>Observed Value</th>
-                            <th>Standard Reference</th>
-                            <th>Status</th>
-                            <th>Physiological Implication</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in result.abnormal_biomarkers %}
-                        <tr>
-                            <td><strong>{{ item.name }}</strong> (<code>{{ item.feature }}</code>)</td>
-                            <td>{{ item.value }} {{ item.unit }}</td>
-                            <td>{{ item.normal_range }}</td>
-                            <td>
-                                <span class="status-badge {% if 'High' in item.status or 'Present' in item.status or 'Abnormal' in item.status %}high{% else %}low{% endif %}">
-                                    {{ item.status }}
-                                </span>
-                            </td>
-                            <td>{{ item.description }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <div class="table-scroll-wrapper">
+                    <table class="anomaly-table">
+                        <thead>
+                            <tr>
+                                <th>Biomarker</th>
+                                <th>Observed Value</th>
+                                <th>Normal Reference</th>
+                                <th>Status</th>
+                                <th>Clinical Significance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in result.abnormal_biomarkers %}
+                            <tr>
+                                <td>
+                                    <strong>{{ item.name }}</strong><br>
+                                    <code class="feat-code">{{ item.feature }}</code>
+                                </td>
+                                <td class="td-value">{{ item.value }} <span class="td-unit">{{ item.unit }}</span></td>
+                                <td class="td-range">{{ item.normal_range }}</td>
+                                <td>
+                                    {% if 'High' in item.status or 'Present' in item.status or 'Abnormal' in item.status %}
+                                        <span class="status-badge badge-danger">{{ item.status }}</span>
+                                    {% elif 'Low' in item.status %}
+                                        <span class="status-badge badge-warning">{{ item.status }}</span>
+                                    {% else %}
+                                        <span class="status-badge badge-danger">{{ item.status }}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="td-desc">{{ item.description }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             {% else %}
-                <div style="padding: 1.5rem; text-align: center; color: var(--success); font-weight: 600;">
-                    ✅ All evaluated laboratory parameters are within normal physiological bounds.
+                <div class="all-normal-box">
+                    <span style="font-size: 2rem;">&#x2705;</span>
+                    <div>
+                        <strong>All Parameters Within Normal Bounds</strong>
+                        <p>No laboratory values were flagged as outside standard physiological reference ranges.</p>
+                    </div>
                 </div>
             {% endif %}
         </div>
 
-        <!-- Action Buttons -->
-        <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-            <a href="{{ url_for('index') }}" class="btn-secondary">⬅️ Assess Another Patient</a>
+        <!-- ====== PATIENT INPUT SUMMARY ====== -->
+        <div class="form-section">
+            <h2 class="section-title">&#x1F4CB; Submitted Patient Data Summary</h2>
+            <p class="section-subtext">Values entered for this assessment:</p>
+            <div class="summary-chip-grid">
+                {% set num_labels = {
+                    'age':'Age (yrs)', 'bp':'Blood Pressure', 'bgr':'Blood Glucose',
+                    'bu':'Blood Urea', 'sc':'Serum Creatinine', 'sod':'Sodium',
+                    'pot':'Potassium', 'hemo':'Hemoglobin', 'pcv':'Packed Cell Vol.',
+                    'wbcc':'WBC Count', 'rbcc':'RBC Count'
+                } %}
+                {% set cat_labels = {
+                    'sg':'Specific Gravity', 'al':'Albumin', 'su':'Sugar',
+                    'rbc':'RBC (Urine)', 'pc':'Pus Cells', 'pcc':'Pus Cell Clumps',
+                    'ba':'Bacteria', 'htn':'Hypertension', 'dm':'Diabetes',
+                    'cad':'CAD', 'appet':'Appetite', 'pe':'Pedal Edema', 'ane':'Anemia'
+                } %}
+                {% for feat, label in num_labels.items() %}
+                    {% set v = patient_data.get(feat) %}
+                    {% if v is not none and v == v %}
+                    <div class="summary-chip chip-num">
+                        <div class="chip-label">{{ label }}</div>
+                        <div class="chip-value">{{ v }}</div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                {% for feat, label in cat_labels.items() %}
+                    {% set v = patient_data.get(feat) %}
+                    {% if v %}
+                    <div class="summary-chip chip-cat">
+                        <div class="chip-label">{{ label }}</div>
+                        <div class="chip-value">{{ v }}</div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- ====== DISCLAIMER ====== -->
+        <div class="disclaimer-box">
+            <span class="disc-icon">&#x26A0;&#xFE0F;</span>
+            <div>
+                <strong>Academic Disclaimer:</strong>
+                This tool is a student machine learning project for educational use only.
+                It is <strong>NOT medically validated</strong> and must NOT be used in place of professional
+                clinical assessment, physician consultation, or certified laboratory testing.
+                Always consult a qualified nephrologist or physician for any medical concern.
+            </div>
+        </div>
+
+        <!-- ====== ACTION BUTTONS ====== -->
+        <div class="action-row">
+            <a href="{{ url_for('index') }}" class="btn-action-primary">&#8592; Assess Another Patient</a>
+            <button onclick="window.print()" class="btn-action-secondary">&#x1F5A8; Print This Report</button>
         </div>
 
         <footer>
-            <p>🎓 Academic Project: Chronic Kidney Disease Predictor • Built with Python, Scikit-Learn, Flask & Vanilla JS</p>
+            <p>&#x1F393; Academic Project: Chronic Kidney Disease Predictor &bull;
+               Python &bull; Scikit-Learn &bull; Flask &bull; Random Forest (F1: 1.00)</p>
         </footer>
     </div>
 </body>
